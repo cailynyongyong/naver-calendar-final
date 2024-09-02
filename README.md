@@ -29,5 +29,7 @@ http://127.0.0.1:3000/naverlogin
 ## 그 외 사용한 개발 문서
 
 [네이버 애플리케이션 등록하기](https://developers.naver.com/apps/#/register)
+
 [네이버 로그인 API 개발 문서](https://developers.naver.com/docs/login/api/api.md)
+
 [네이버 캘린더 API 개발 문서](https://developers.naver.com/docs/login/calendar-api/calendar-api.md)
