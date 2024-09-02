@@ -1,0 +1,99 @@
+openapi: 3.1.0
+info:
+  title: Naver Calendar API
+  description: API for creating schedules on the Naver Calendar.
+  version: 1.0.0
+servers:
+  - url: https://openapi.naver.com
+    description: Naver API Server
+components:
+  securitySchemes:
+    OAuth2:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: https://nid.naver.com/oauth2.0/authorize
+          tokenUrl: https://nid.naver.com/oauth2.0/token
+          scopes:
+            groups: ""
+  schemas:
+    ScheduleMeetingResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          example: "success"
+        message:
+          type: string
+          example: "Meeting scheduled successfully."
+paths:
+  /calendar/createSchedule.json:
+    post:
+      operationId: createSchedule
+      summary: Create a new schedule in the Naver Calendar.
+      description: Creates a schedule in the specified calendar using an iCal format string.
+      security:
+        - OAuth2: []
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                calendarId:
+                  type: string
+                  description: ID of the calendar where the schedule will be created.
+                  example: 12345678
+                scheduleIcalString:
+                  type: string
+                  description: iCal formatted string representing the schedule.
+                  example: |
+                    BEGIN:VCALENDAR
+                    VERSION:2.0
+                    PRODID:Naver Calendar
+                    CALSCALE:GREGORIAN
+                    BEGIN:VTIMEZONE
+                    TZID:Asia/Seoul
+                    BEGIN:STANDARD
+                    DTSTART:19700101T000000
+                    TZNAME:GMT+09:00
+                    TZOFFSETFROM:+0900
+                    TZOFFSETTO:+0900
+                    END:STANDARD
+                    END:VTIMEZONE
+                    BEGIN:VEVENT
+                    SEQUENCE:0
+                    CLASS:PUBLIC
+                    TRANSP:OPAQUE
+                    UID:AAANhUwx08hWG3
+                    DTSTART;TZID=Asia/Seoul:20240902T190000
+                    DTEND;TZID=Asia/Seoul:20240902T193000
+                    SUMMARY:[제목] GPTs API로 추가한 일정
+                    DESCRIPTION:[상세] 회의합니다.
+                    LOCATION:[장소] 그린팩토리
+                    ORGANIZER;CN={요청자 이름}:mailto:{요청자 이메일}
+                    ATTENDEE;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;CN={참석자 이름}:mailto:{참석자 이메일}
+                    CREATED:20161116T160000Z
+                    LAST-MODIFIED:20161116T160000Z
+                    DTSTAMP:20161116T160000Z
+                    END:VEVENT
+                    END:VCALENDAR
+      responses:
+        "200":
+          description: Schedule successfully created.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  result:
+                    type: string
+                    description: Result status of the creation.
+                    example: success
+        "401":
+          description: Unauthorized - Invalid or expired token.
+        "400":
+          description: Bad Request - Invalid parameters or malformed request.
+        "500":
+          description: Internal Server Error - Error on the server side.

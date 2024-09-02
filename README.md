@@ -32,6 +32,11 @@ npx ts-node api/index.ts
 http://127.0.0.1:3000/naverlogin
 ```
 
+## 프롬프트 및 스키마 코드
+
+프롬프트: prompt.md
+스키마 코드: schema.yaml
+
 ## 그 외 사용한 개발 문서
 
 [네이버 애플리케이션 등록하기](https://developers.naver.com/apps/#/register)
